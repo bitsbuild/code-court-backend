@@ -5,6 +5,7 @@ from user.serializers import UserSerializer
 from django.contrib.auth.models import User
 from rest_framework.response import Response 
 from rest_framework.authtoken.models import Token
+from rest_framework.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
 @api_view(['POST'])
 def create_user(request):
     try:
@@ -18,10 +19,15 @@ def create_user(request):
                 "Email":request.data['email'],
                 "Username":request.data['username'],
                 "Token":str(token.key)
-            }
+            },status=HTTP_200_OK
         )
     except Exception as e:
-        pass
+        return Response(
+            {
+                "Status":"Error",
+                "Error":str(e)
+            },status=HTTP_400_BAD_REQUEST
+        )
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def delete_user(request):
@@ -30,12 +36,12 @@ def delete_user(request):
         return Response(
             {
                 "Status":"Account Deletion Successful"
-            }
+            },status=HTTP_200_OK
         )
     except Exception as e:
         return Response(
             {
                 "Status":"Error",
                 "Error":str(e)
-            }
+            },status=HTTP_400_BAD_REQUEST
         )
