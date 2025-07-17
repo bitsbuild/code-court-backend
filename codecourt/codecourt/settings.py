@@ -1,6 +1,9 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-umsr!gvhfj4%j=s-#6j5vgra%1%xz#ycnheh_ie3xpv%8k@8$z'
+SECRET_KEY = os.getenv('DSK')
 DEBUG = True
 ALLOWED_HOSTS = []
 INSTALLED_APPS = [
